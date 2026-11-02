@@ -1,0 +1,1940 @@
+{
+  "pipelines": [
+    {
+      "name": "Pipeline000",
+      "identifier": "REBLUR_ClassifyTiles.cs.hlsl",
+      "hasConstants": true,
+      "resources": [
+        {
+          "name": "gIn_ViewZ",
+          "storage": false,
+          "slot": 0
+        },
+        {
+          "name": "gOut_Tiles",
+          "storage": true,
+          "slot": 0
+        }
+      ]
+    },
+    {
+      "name": "Pipeline001",
+      "identifier": "REBLUR_HitDistReconstruction.cs.hlsl|NRD_SIGNAL=NRD_SIGNAL_BOTH|NRD_MODE=NRD_MODE_RADIANCE|MODE_5X5=0",
+      "hasConstants": true,
+      "resources": [
+        {
+          "name": "gIn_Tiles",
+          "storage": false,
+          "slot": 0
+        },
+        {
+          "name": "gIn_Normal_Roughness",
+          "storage": false,
+          "slot": 1
+        },
+        {
+          "name": "gIn_ViewZ",
+          "storage": false,
+          "slot": 2
+        },
+        {
+          "name": "gIn_Diff",
+          "storage": false,
+          "slot": 3
+        },
+        {
+          "name": "gIn_Spec",
+          "storage": false,
+          "slot": 4
+        },
+        {
+          "name": "gOut_Diff",
+          "storage": true,
+          "slot": 0
+        },
+        {
+          "name": "gOut_Spec",
+          "storage": true,
+          "slot": 1
+        }
+      ]
+    },
+    {
+      "name": "Pipeline002",
+      "identifier": "REBLUR_HitDistReconstruction.cs.hlsl|NRD_SIGNAL=NRD_SIGNAL_BOTH|NRD_MODE=NRD_MODE_RADIANCE|MODE_5X5=0",
+      "hasConstants": true,
+      "resources": [
+        {
+          "name": "gIn_Tiles",
+          "storage": false,
+          "slot": 0
+        },
+        {
+          "name": "gIn_Normal_Roughness",
+          "storage": false,
+          "slot": 1
+        },
+        {
+          "name": "gIn_ViewZ",
+          "storage": false,
+          "slot": 2
+        },
+        {
+          "name": "gIn_Diff",
+          "storage": false,
+          "slot": 3
+        },
+        {
+          "name": "gIn_Spec",
+          "storage": false,
+          "slot": 4
+        },
+        {
+          "name": "gOut_Diff",
+          "storage": true,
+          "slot": 0
+        },
+        {
+          "name": "gOut_Spec",
+          "storage": true,
+          "slot": 1
+        }
+      ]
+    },
+    {
+      "name": "Pipeline003",
+      "identifier": "REBLUR_HitDistReconstruction.cs.hlsl|NRD_SIGNAL=NRD_SIGNAL_BOTH|NRD_MODE=NRD_MODE_RADIANCE|MODE_5X5=1",
+      "hasConstants": true,
+      "resources": [
+        {
+          "name": "gIn_Tiles",
+          "storage": false,
+          "slot": 0
+        },
+        {
+          "name": "gIn_Normal_Roughness",
+          "storage": false,
+          "slot": 1
+        },
+        {
+          "name": "gIn_ViewZ",
+          "storage": false,
+          "slot": 2
+        },
+        {
+          "name": "gIn_Diff",
+          "storage": false,
+          "slot": 3
+        },
+        {
+          "name": "gIn_Spec",
+          "storage": false,
+          "slot": 4
+        },
+        {
+          "name": "gOut_Diff",
+          "storage": true,
+          "slot": 0
+        },
+        {
+          "name": "gOut_Spec",
+          "storage": true,
+          "slot": 1
+        }
+      ]
+    },
+    {
+      "name": "Pipeline004",
+      "identifier": "REBLUR_HitDistReconstruction.cs.hlsl|NRD_SIGNAL=NRD_SIGNAL_BOTH|NRD_MODE=NRD_MODE_RADIANCE|MODE_5X5=1",
+      "hasConstants": true,
+      "resources": [
+        {
+          "name": "gIn_Tiles",
+          "storage": false,
+          "slot": 0
+        },
+        {
+          "name": "gIn_Normal_Roughness",
+          "storage": false,
+          "slot": 1
+        },
+        {
+          "name": "gIn_ViewZ",
+          "storage": false,
+          "slot": 2
+        },
+        {
+          "name": "gIn_Diff",
+          "storage": false,
+          "slot": 3
+        },
+        {
+          "name": "gIn_Spec",
+          "storage": false,
+          "slot": 4
+        },
+        {
+          "name": "gOut_Diff",
+          "storage": true,
+          "slot": 0
+        },
+        {
+          "name": "gOut_Spec",
+          "storage": true,
+          "slot": 1
+        }
+      ]
+    },
+    {
+      "name": "Pipeline005",
+      "identifier": "REBLUR_PrePass.cs.hlsl|NRD_SIGNAL=NRD_SIGNAL_BOTH|NRD_MODE=NRD_MODE_RADIANCE",
+      "hasConstants": true,
+      "resources": [
+        {
+          "name": "gIn_Tiles",
+          "storage": false,
+          "slot": 0
+        },
+        {
+          "name": "gIn_Normal_Roughness",
+          "storage": false,
+          "slot": 1
+        },
+        {
+          "name": "gIn_ViewZ",
+          "storage": false,
+          "slot": 2
+        },
+        {
+          "name": "gIn_Diff",
+          "storage": false,
+          "slot": 3
+        },
+        {
+          "name": "gIn_Spec",
+          "storage": false,
+          "slot": 4
+        },
+        {
+          "name": "gOut_Diff",
+          "storage": true,
+          "slot": 0
+        },
+        {
+          "name": "gOut_Spec",
+          "storage": true,
+          "slot": 1
+        },
+        {
+          "name": "gOut_SpecHitDistForTracking",
+          "storage": true,
+          "slot": 2
+        }
+      ]
+    },
+    {
+      "name": "Pipeline006",
+      "identifier": "REBLUR_PrePass.cs.hlsl|NRD_SIGNAL=NRD_SIGNAL_BOTH|NRD_MODE=NRD_MODE_RADIANCE",
+      "hasConstants": true,
+      "resources": [
+        {
+          "name": "gIn_Tiles",
+          "storage": false,
+          "slot": 0
+        },
+        {
+          "name": "gIn_Normal_Roughness",
+          "storage": false,
+          "slot": 1
+        },
+        {
+          "name": "gIn_ViewZ",
+          "storage": false,
+          "slot": 2
+        },
+        {
+          "name": "gIn_Diff",
+          "storage": false,
+          "slot": 3
+        },
+        {
+          "name": "gIn_Spec",
+          "storage": false,
+          "slot": 4
+        },
+        {
+          "name": "gOut_Diff",
+          "storage": true,
+          "slot": 0
+        },
+        {
+          "name": "gOut_Spec",
+          "storage": true,
+          "slot": 1
+        },
+        {
+          "name": "gOut_SpecHitDistForTracking",
+          "storage": true,
+          "slot": 2
+        }
+      ]
+    },
+    {
+      "name": "Pipeline007",
+      "identifier": "REBLUR_TemporalAccumulation.cs.hlsl|NRD_SIGNAL=NRD_SIGNAL_BOTH|NRD_MODE=NRD_MODE_RADIANCE",
+      "hasConstants": true,
+      "resources": [
+        {
+          "name": "gIn_Tiles",
+          "storage": false,
+          "slot": 0
+        },
+        {
+          "name": "gIn_Normal_Roughness",
+          "storage": false,
+          "slot": 1
+        },
+        {
+          "name": "gIn_ViewZ",
+          "storage": false,
+          "slot": 2
+        },
+        {
+          "name": "gIn_Mv",
+          "storage": false,
+          "slot": 3
+        },
+        {
+          "name": "gPrev_ViewZ",
+          "storage": false,
+          "slot": 4
+        },
+        {
+          "name": "gPrev_Normal_Roughness",
+          "storage": false,
+          "slot": 5
+        },
+        {
+          "name": "gPrev_InternalData",
+          "storage": false,
+          "slot": 6
+        },
+        {
+          "name": "gIn_DisocclusionThresholdMix",
+          "storage": false,
+          "slot": 7
+        },
+        {
+          "name": "gIn_DiffConfidence",
+          "storage": false,
+          "slot": 8
+        },
+        {
+          "name": "gIn_SpecConfidence",
+          "storage": false,
+          "slot": 9
+        },
+        {
+          "name": "gIn_Diff",
+          "storage": false,
+          "slot": 10
+        },
+        {
+          "name": "gIn_Spec",
+          "storage": false,
+          "slot": 11
+        },
+        {
+          "name": "gHistory_Diff",
+          "storage": false,
+          "slot": 12
+        },
+        {
+          "name": "gHistory_Spec",
+          "storage": false,
+          "slot": 13
+        },
+        {
+          "name": "gHistory_DiffFast",
+          "storage": false,
+          "slot": 14
+        },
+        {
+          "name": "gHistory_SpecFast",
+          "storage": false,
+          "slot": 15
+        },
+        {
+          "name": "gPrev_SpecHitDistForTracking",
+          "storage": false,
+          "slot": 16
+        },
+        {
+          "name": "gIn_SpecHitDistForTracking",
+          "storage": false,
+          "slot": 17
+        },
+        {
+          "name": "gOut_Data1",
+          "storage": true,
+          "slot": 0
+        },
+        {
+          "name": "gOut_Diff",
+          "storage": true,
+          "slot": 1
+        },
+        {
+          "name": "gOut_Spec",
+          "storage": true,
+          "slot": 2
+        },
+        {
+          "name": "gOut_DiffFast",
+          "storage": true,
+          "slot": 3
+        },
+        {
+          "name": "gOut_SpecFast",
+          "storage": true,
+          "slot": 4
+        },
+        {
+          "name": "gOut_SpecHitDistForTracking",
+          "storage": true,
+          "slot": 5
+        },
+        {
+          "name": "gOut_Data2",
+          "storage": true,
+          "slot": 6
+        }
+      ]
+    },
+    {
+      "name": "Pipeline008",
+      "identifier": "REBLUR_TemporalAccumulation.cs.hlsl|NRD_SIGNAL=NRD_SIGNAL_BOTH|NRD_MODE=NRD_MODE_RADIANCE",
+      "hasConstants": true,
+      "resources": [
+        {
+          "name": "gIn_Tiles",
+          "storage": false,
+          "slot": 0
+        },
+        {
+          "name": "gIn_Normal_Roughness",
+          "storage": false,
+          "slot": 1
+        },
+        {
+          "name": "gIn_ViewZ",
+          "storage": false,
+          "slot": 2
+        },
+        {
+          "name": "gIn_Mv",
+          "storage": false,
+          "slot": 3
+        },
+        {
+          "name": "gPrev_ViewZ",
+          "storage": false,
+          "slot": 4
+        },
+        {
+          "name": "gPrev_Normal_Roughness",
+          "storage": false,
+          "slot": 5
+        },
+        {
+          "name": "gPrev_InternalData",
+          "storage": false,
+          "slot": 6
+        },
+        {
+          "name": "gIn_DisocclusionThresholdMix",
+          "storage": false,
+          "slot": 7
+        },
+        {
+          "name": "gIn_DiffConfidence",
+          "storage": false,
+          "slot": 8
+        },
+        {
+          "name": "gIn_SpecConfidence",
+          "storage": false,
+          "slot": 9
+        },
+        {
+          "name": "gIn_Diff",
+          "storage": false,
+          "slot": 10
+        },
+        {
+          "name": "gIn_Spec",
+          "storage": false,
+          "slot": 11
+        },
+        {
+          "name": "gHistory_Diff",
+          "storage": false,
+          "slot": 12
+        },
+        {
+          "name": "gHistory_Spec",
+          "storage": false,
+          "slot": 13
+        },
+        {
+          "name": "gHistory_DiffFast",
+          "storage": false,
+          "slot": 14
+        },
+        {
+          "name": "gHistory_SpecFast",
+          "storage": false,
+          "slot": 15
+        },
+        {
+          "name": "gPrev_SpecHitDistForTracking",
+          "storage": false,
+          "slot": 16
+        },
+        {
+          "name": "gIn_SpecHitDistForTracking",
+          "storage": false,
+          "slot": 17
+        },
+        {
+          "name": "gOut_Data1",
+          "storage": true,
+          "slot": 0
+        },
+        {
+          "name": "gOut_Diff",
+          "storage": true,
+          "slot": 1
+        },
+        {
+          "name": "gOut_Spec",
+          "storage": true,
+          "slot": 2
+        },
+        {
+          "name": "gOut_DiffFast",
+          "storage": true,
+          "slot": 3
+        },
+        {
+          "name": "gOut_SpecFast",
+          "storage": true,
+          "slot": 4
+        },
+        {
+          "name": "gOut_SpecHitDistForTracking",
+          "storage": true,
+          "slot": 5
+        },
+        {
+          "name": "gOut_Data2",
+          "storage": true,
+          "slot": 6
+        }
+      ]
+    },
+    {
+      "name": "Pipeline009",
+      "identifier": "REBLUR_TemporalAccumulation.cs.hlsl|NRD_SIGNAL=NRD_SIGNAL_BOTH|NRD_MODE=NRD_MODE_RADIANCE",
+      "hasConstants": true,
+      "resources": [
+        {
+          "name": "gIn_Tiles",
+          "storage": false,
+          "slot": 0
+        },
+        {
+          "name": "gIn_Normal_Roughness",
+          "storage": false,
+          "slot": 1
+        },
+        {
+          "name": "gIn_ViewZ",
+          "storage": false,
+          "slot": 2
+        },
+        {
+          "name": "gIn_Mv",
+          "storage": false,
+          "slot": 3
+        },
+        {
+          "name": "gPrev_ViewZ",
+          "storage": false,
+          "slot": 4
+        },
+        {
+          "name": "gPrev_Normal_Roughness",
+          "storage": false,
+          "slot": 5
+        },
+        {
+          "name": "gPrev_InternalData",
+          "storage": false,
+          "slot": 6
+        },
+        {
+          "name": "gIn_DisocclusionThresholdMix",
+          "storage": false,
+          "slot": 7
+        },
+        {
+          "name": "gIn_DiffConfidence",
+          "storage": false,
+          "slot": 8
+        },
+        {
+          "name": "gIn_SpecConfidence",
+          "storage": false,
+          "slot": 9
+        },
+        {
+          "name": "gIn_Diff",
+          "storage": false,
+          "slot": 10
+        },
+        {
+          "name": "gIn_Spec",
+          "storage": false,
+          "slot": 11
+        },
+        {
+          "name": "gHistory_Diff",
+          "storage": false,
+          "slot": 12
+        },
+        {
+          "name": "gHistory_Spec",
+          "storage": false,
+          "slot": 13
+        },
+        {
+          "name": "gHistory_DiffFast",
+          "storage": false,
+          "slot": 14
+        },
+        {
+          "name": "gHistory_SpecFast",
+          "storage": false,
+          "slot": 15
+        },
+        {
+          "name": "gPrev_SpecHitDistForTracking",
+          "storage": false,
+          "slot": 16
+        },
+        {
+          "name": "gIn_SpecHitDistForTracking",
+          "storage": false,
+          "slot": 17
+        },
+        {
+          "name": "gOut_Data1",
+          "storage": true,
+          "slot": 0
+        },
+        {
+          "name": "gOut_Diff",
+          "storage": true,
+          "slot": 1
+        },
+        {
+          "name": "gOut_Spec",
+          "storage": true,
+          "slot": 2
+        },
+        {
+          "name": "gOut_DiffFast",
+          "storage": true,
+          "slot": 3
+        },
+        {
+          "name": "gOut_SpecFast",
+          "storage": true,
+          "slot": 4
+        },
+        {
+          "name": "gOut_SpecHitDistForTracking",
+          "storage": true,
+          "slot": 5
+        },
+        {
+          "name": "gOut_Data2",
+          "storage": true,
+          "slot": 6
+        }
+      ]
+    },
+    {
+      "name": "Pipeline010",
+      "identifier": "REBLUR_TemporalAccumulation.cs.hlsl|NRD_SIGNAL=NRD_SIGNAL_BOTH|NRD_MODE=NRD_MODE_RADIANCE",
+      "hasConstants": true,
+      "resources": [
+        {
+          "name": "gIn_Tiles",
+          "storage": false,
+          "slot": 0
+        },
+        {
+          "name": "gIn_Normal_Roughness",
+          "storage": false,
+          "slot": 1
+        },
+        {
+          "name": "gIn_ViewZ",
+          "storage": false,
+          "slot": 2
+        },
+        {
+          "name": "gIn_Mv",
+          "storage": false,
+          "slot": 3
+        },
+        {
+          "name": "gPrev_ViewZ",
+          "storage": false,
+          "slot": 4
+        },
+        {
+          "name": "gPrev_Normal_Roughness",
+          "storage": false,
+          "slot": 5
+        },
+        {
+          "name": "gPrev_InternalData",
+          "storage": false,
+          "slot": 6
+        },
+        {
+          "name": "gIn_DisocclusionThresholdMix",
+          "storage": false,
+          "slot": 7
+        },
+        {
+          "name": "gIn_DiffConfidence",
+          "storage": false,
+          "slot": 8
+        },
+        {
+          "name": "gIn_SpecConfidence",
+          "storage": false,
+          "slot": 9
+        },
+        {
+          "name": "gIn_Diff",
+          "storage": false,
+          "slot": 10
+        },
+        {
+          "name": "gIn_Spec",
+          "storage": false,
+          "slot": 11
+        },
+        {
+          "name": "gHistory_Diff",
+          "storage": false,
+          "slot": 12
+        },
+        {
+          "name": "gHistory_Spec",
+          "storage": false,
+          "slot": 13
+        },
+        {
+          "name": "gHistory_DiffFast",
+          "storage": false,
+          "slot": 14
+        },
+        {
+          "name": "gHistory_SpecFast",
+          "storage": false,
+          "slot": 15
+        },
+        {
+          "name": "gPrev_SpecHitDistForTracking",
+          "storage": false,
+          "slot": 16
+        },
+        {
+          "name": "gIn_SpecHitDistForTracking",
+          "storage": false,
+          "slot": 17
+        },
+        {
+          "name": "gOut_Data1",
+          "storage": true,
+          "slot": 0
+        },
+        {
+          "name": "gOut_Diff",
+          "storage": true,
+          "slot": 1
+        },
+        {
+          "name": "gOut_Spec",
+          "storage": true,
+          "slot": 2
+        },
+        {
+          "name": "gOut_DiffFast",
+          "storage": true,
+          "slot": 3
+        },
+        {
+          "name": "gOut_SpecFast",
+          "storage": true,
+          "slot": 4
+        },
+        {
+          "name": "gOut_SpecHitDistForTracking",
+          "storage": true,
+          "slot": 5
+        },
+        {
+          "name": "gOut_Data2",
+          "storage": true,
+          "slot": 6
+        }
+      ]
+    },
+    {
+      "name": "Pipeline011",
+      "identifier": "REBLUR_TemporalAccumulation.cs.hlsl|NRD_SIGNAL=NRD_SIGNAL_BOTH|NRD_MODE=NRD_MODE_RADIANCE",
+      "hasConstants": true,
+      "resources": [
+        {
+          "name": "gIn_Tiles",
+          "storage": false,
+          "slot": 0
+        },
+        {
+          "name": "gIn_Normal_Roughness",
+          "storage": false,
+          "slot": 1
+        },
+        {
+          "name": "gIn_ViewZ",
+          "storage": false,
+          "slot": 2
+        },
+        {
+          "name": "gIn_Mv",
+          "storage": false,
+          "slot": 3
+        },
+        {
+          "name": "gPrev_ViewZ",
+          "storage": false,
+          "slot": 4
+        },
+        {
+          "name": "gPrev_Normal_Roughness",
+          "storage": false,
+          "slot": 5
+        },
+        {
+          "name": "gPrev_InternalData",
+          "storage": false,
+          "slot": 6
+        },
+        {
+          "name": "gIn_DisocclusionThresholdMix",
+          "storage": false,
+          "slot": 7
+        },
+        {
+          "name": "gIn_DiffConfidence",
+          "storage": false,
+          "slot": 8
+        },
+        {
+          "name": "gIn_SpecConfidence",
+          "storage": false,
+          "slot": 9
+        },
+        {
+          "name": "gIn_Diff",
+          "storage": false,
+          "slot": 10
+        },
+        {
+          "name": "gIn_Spec",
+          "storage": false,
+          "slot": 11
+        },
+        {
+          "name": "gHistory_Diff",
+          "storage": false,
+          "slot": 12
+        },
+        {
+          "name": "gHistory_Spec",
+          "storage": false,
+          "slot": 13
+        },
+        {
+          "name": "gHistory_DiffFast",
+          "storage": false,
+          "slot": 14
+        },
+        {
+          "name": "gHistory_SpecFast",
+          "storage": false,
+          "slot": 15
+        },
+        {
+          "name": "gPrev_SpecHitDistForTracking",
+          "storage": false,
+          "slot": 16
+        },
+        {
+          "name": "gIn_SpecHitDistForTracking",
+          "storage": false,
+          "slot": 17
+        },
+        {
+          "name": "gOut_Data1",
+          "storage": true,
+          "slot": 0
+        },
+        {
+          "name": "gOut_Diff",
+          "storage": true,
+          "slot": 1
+        },
+        {
+          "name": "gOut_Spec",
+          "storage": true,
+          "slot": 2
+        },
+        {
+          "name": "gOut_DiffFast",
+          "storage": true,
+          "slot": 3
+        },
+        {
+          "name": "gOut_SpecFast",
+          "storage": true,
+          "slot": 4
+        },
+        {
+          "name": "gOut_SpecHitDistForTracking",
+          "storage": true,
+          "slot": 5
+        },
+        {
+          "name": "gOut_Data2",
+          "storage": true,
+          "slot": 6
+        }
+      ]
+    },
+    {
+      "name": "Pipeline012",
+      "identifier": "REBLUR_TemporalAccumulation.cs.hlsl|NRD_SIGNAL=NRD_SIGNAL_BOTH|NRD_MODE=NRD_MODE_RADIANCE",
+      "hasConstants": true,
+      "resources": [
+        {
+          "name": "gIn_Tiles",
+          "storage": false,
+          "slot": 0
+        },
+        {
+          "name": "gIn_Normal_Roughness",
+          "storage": false,
+          "slot": 1
+        },
+        {
+          "name": "gIn_ViewZ",
+          "storage": false,
+          "slot": 2
+        },
+        {
+          "name": "gIn_Mv",
+          "storage": false,
+          "slot": 3
+        },
+        {
+          "name": "gPrev_ViewZ",
+          "storage": false,
+          "slot": 4
+        },
+        {
+          "name": "gPrev_Normal_Roughness",
+          "storage": false,
+          "slot": 5
+        },
+        {
+          "name": "gPrev_InternalData",
+          "storage": false,
+          "slot": 6
+        },
+        {
+          "name": "gIn_DisocclusionThresholdMix",
+          "storage": false,
+          "slot": 7
+        },
+        {
+          "name": "gIn_DiffConfidence",
+          "storage": false,
+          "slot": 8
+        },
+        {
+          "name": "gIn_SpecConfidence",
+          "storage": false,
+          "slot": 9
+        },
+        {
+          "name": "gIn_Diff",
+          "storage": false,
+          "slot": 10
+        },
+        {
+          "name": "gIn_Spec",
+          "storage": false,
+          "slot": 11
+        },
+        {
+          "name": "gHistory_Diff",
+          "storage": false,
+          "slot": 12
+        },
+        {
+          "name": "gHistory_Spec",
+          "storage": false,
+          "slot": 13
+        },
+        {
+          "name": "gHistory_DiffFast",
+          "storage": false,
+          "slot": 14
+        },
+        {
+          "name": "gHistory_SpecFast",
+          "storage": false,
+          "slot": 15
+        },
+        {
+          "name": "gPrev_SpecHitDistForTracking",
+          "storage": false,
+          "slot": 16
+        },
+        {
+          "name": "gIn_SpecHitDistForTracking",
+          "storage": false,
+          "slot": 17
+        },
+        {
+          "name": "gOut_Data1",
+          "storage": true,
+          "slot": 0
+        },
+        {
+          "name": "gOut_Diff",
+          "storage": true,
+          "slot": 1
+        },
+        {
+          "name": "gOut_Spec",
+          "storage": true,
+          "slot": 2
+        },
+        {
+          "name": "gOut_DiffFast",
+          "storage": true,
+          "slot": 3
+        },
+        {
+          "name": "gOut_SpecFast",
+          "storage": true,
+          "slot": 4
+        },
+        {
+          "name": "gOut_SpecHitDistForTracking",
+          "storage": true,
+          "slot": 5
+        },
+        {
+          "name": "gOut_Data2",
+          "storage": true,
+          "slot": 6
+        }
+      ]
+    },
+    {
+      "name": "Pipeline013",
+      "identifier": "REBLUR_TemporalAccumulation.cs.hlsl|NRD_SIGNAL=NRD_SIGNAL_BOTH|NRD_MODE=NRD_MODE_RADIANCE",
+      "hasConstants": true,
+      "resources": [
+        {
+          "name": "gIn_Tiles",
+          "storage": false,
+          "slot": 0
+        },
+        {
+          "name": "gIn_Normal_Roughness",
+          "storage": false,
+          "slot": 1
+        },
+        {
+          "name": "gIn_ViewZ",
+          "storage": false,
+          "slot": 2
+        },
+        {
+          "name": "gIn_Mv",
+          "storage": false,
+          "slot": 3
+        },
+        {
+          "name": "gPrev_ViewZ",
+          "storage": false,
+          "slot": 4
+        },
+        {
+          "name": "gPrev_Normal_Roughness",
+          "storage": false,
+          "slot": 5
+        },
+        {
+          "name": "gPrev_InternalData",
+          "storage": false,
+          "slot": 6
+        },
+        {
+          "name": "gIn_DisocclusionThresholdMix",
+          "storage": false,
+          "slot": 7
+        },
+        {
+          "name": "gIn_DiffConfidence",
+          "storage": false,
+          "slot": 8
+        },
+        {
+          "name": "gIn_SpecConfidence",
+          "storage": false,
+          "slot": 9
+        },
+        {
+          "name": "gIn_Diff",
+          "storage": false,
+          "slot": 10
+        },
+        {
+          "name": "gIn_Spec",
+          "storage": false,
+          "slot": 11
+        },
+        {
+          "name": "gHistory_Diff",
+          "storage": false,
+          "slot": 12
+        },
+        {
+          "name": "gHistory_Spec",
+          "storage": false,
+          "slot": 13
+        },
+        {
+          "name": "gHistory_DiffFast",
+          "storage": false,
+          "slot": 14
+        },
+        {
+          "name": "gHistory_SpecFast",
+          "storage": false,
+          "slot": 15
+        },
+        {
+          "name": "gPrev_SpecHitDistForTracking",
+          "storage": false,
+          "slot": 16
+        },
+        {
+          "name": "gIn_SpecHitDistForTracking",
+          "storage": false,
+          "slot": 17
+        },
+        {
+          "name": "gOut_Data1",
+          "storage": true,
+          "slot": 0
+        },
+        {
+          "name": "gOut_Diff",
+          "storage": true,
+          "slot": 1
+        },
+        {
+          "name": "gOut_Spec",
+          "storage": true,
+          "slot": 2
+        },
+        {
+          "name": "gOut_DiffFast",
+          "storage": true,
+          "slot": 3
+        },
+        {
+          "name": "gOut_SpecFast",
+          "storage": true,
+          "slot": 4
+        },
+        {
+          "name": "gOut_SpecHitDistForTracking",
+          "storage": true,
+          "slot": 5
+        },
+        {
+          "name": "gOut_Data2",
+          "storage": true,
+          "slot": 6
+        }
+      ]
+    },
+    {
+      "name": "Pipeline014",
+      "identifier": "REBLUR_TemporalAccumulation.cs.hlsl|NRD_SIGNAL=NRD_SIGNAL_BOTH|NRD_MODE=NRD_MODE_RADIANCE",
+      "hasConstants": true,
+      "resources": [
+        {
+          "name": "gIn_Tiles",
+          "storage": false,
+          "slot": 0
+        },
+        {
+          "name": "gIn_Normal_Roughness",
+          "storage": false,
+          "slot": 1
+        },
+        {
+          "name": "gIn_ViewZ",
+          "storage": false,
+          "slot": 2
+        },
+        {
+          "name": "gIn_Mv",
+          "storage": false,
+          "slot": 3
+        },
+        {
+          "name": "gPrev_ViewZ",
+          "storage": false,
+          "slot": 4
+        },
+        {
+          "name": "gPrev_Normal_Roughness",
+          "storage": false,
+          "slot": 5
+        },
+        {
+          "name": "gPrev_InternalData",
+          "storage": false,
+          "slot": 6
+        },
+        {
+          "name": "gIn_DisocclusionThresholdMix",
+          "storage": false,
+          "slot": 7
+        },
+        {
+          "name": "gIn_DiffConfidence",
+          "storage": false,
+          "slot": 8
+        },
+        {
+          "name": "gIn_SpecConfidence",
+          "storage": false,
+          "slot": 9
+        },
+        {
+          "name": "gIn_Diff",
+          "storage": false,
+          "slot": 10
+        },
+        {
+          "name": "gIn_Spec",
+          "storage": false,
+          "slot": 11
+        },
+        {
+          "name": "gHistory_Diff",
+          "storage": false,
+          "slot": 12
+        },
+        {
+          "name": "gHistory_Spec",
+          "storage": false,
+          "slot": 13
+        },
+        {
+          "name": "gHistory_DiffFast",
+          "storage": false,
+          "slot": 14
+        },
+        {
+          "name": "gHistory_SpecFast",
+          "storage": false,
+          "slot": 15
+        },
+        {
+          "name": "gPrev_SpecHitDistForTracking",
+          "storage": false,
+          "slot": 16
+        },
+        {
+          "name": "gIn_SpecHitDistForTracking",
+          "storage": false,
+          "slot": 17
+        },
+        {
+          "name": "gOut_Data1",
+          "storage": true,
+          "slot": 0
+        },
+        {
+          "name": "gOut_Diff",
+          "storage": true,
+          "slot": 1
+        },
+        {
+          "name": "gOut_Spec",
+          "storage": true,
+          "slot": 2
+        },
+        {
+          "name": "gOut_DiffFast",
+          "storage": true,
+          "slot": 3
+        },
+        {
+          "name": "gOut_SpecFast",
+          "storage": true,
+          "slot": 4
+        },
+        {
+          "name": "gOut_SpecHitDistForTracking",
+          "storage": true,
+          "slot": 5
+        },
+        {
+          "name": "gOut_Data2",
+          "storage": true,
+          "slot": 6
+        }
+      ]
+    },
+    {
+      "name": "Pipeline015",
+      "identifier": "REBLUR_HistoryFix.cs.hlsl|NRD_SIGNAL=NRD_SIGNAL_BOTH|NRD_MODE=NRD_MODE_RADIANCE",
+      "hasConstants": true,
+      "resources": [
+        {
+          "name": "gIn_Tiles",
+          "storage": false,
+          "slot": 0
+        },
+        {
+          "name": "gIn_Normal_Roughness",
+          "storage": false,
+          "slot": 1
+        },
+        {
+          "name": "gIn_Data1",
+          "storage": false,
+          "slot": 2
+        },
+        {
+          "name": "gIn_ViewZ",
+          "storage": false,
+          "slot": 3
+        },
+        {
+          "name": "gIn_Diff",
+          "storage": false,
+          "slot": 4
+        },
+        {
+          "name": "gIn_Spec",
+          "storage": false,
+          "slot": 5
+        },
+        {
+          "name": "gIn_DiffFast",
+          "storage": false,
+          "slot": 6
+        },
+        {
+          "name": "gIn_SpecFast",
+          "storage": false,
+          "slot": 7
+        },
+        {
+          "name": "gIn_SpecHitDistForTracking",
+          "storage": false,
+          "slot": 8
+        },
+        {
+          "name": "gOut_Diff",
+          "storage": true,
+          "slot": 0
+        },
+        {
+          "name": "gOut_Spec",
+          "storage": true,
+          "slot": 1
+        },
+        {
+          "name": "gOut_DiffFast",
+          "storage": true,
+          "slot": 2
+        },
+        {
+          "name": "gOut_SpecFast",
+          "storage": true,
+          "slot": 3
+        }
+      ]
+    },
+    {
+      "name": "Pipeline016",
+      "identifier": "REBLUR_Blur.cs.hlsl|NRD_SIGNAL=NRD_SIGNAL_BOTH|NRD_MODE=NRD_MODE_RADIANCE",
+      "hasConstants": true,
+      "resources": [
+        {
+          "name": "gIn_Tiles",
+          "storage": false,
+          "slot": 0
+        },
+        {
+          "name": "gIn_Normal_Roughness",
+          "storage": false,
+          "slot": 1
+        },
+        {
+          "name": "gIn_ViewZ",
+          "storage": false,
+          "slot": 2
+        },
+        {
+          "name": "gIn_Data1",
+          "storage": false,
+          "slot": 3
+        },
+        {
+          "name": "gIn_Diff",
+          "storage": false,
+          "slot": 4
+        },
+        {
+          "name": "gIn_Spec",
+          "storage": false,
+          "slot": 5
+        },
+        {
+          "name": "gOut_ViewZ",
+          "storage": true,
+          "slot": 0
+        },
+        {
+          "name": "gOut_Diff",
+          "storage": true,
+          "slot": 1
+        },
+        {
+          "name": "gOut_Spec",
+          "storage": true,
+          "slot": 2
+        }
+      ]
+    },
+    {
+      "name": "Pipeline017",
+      "identifier": "REBLUR_PostBlur.cs.hlsl|NRD_SIGNAL=NRD_SIGNAL_BOTH|NRD_MODE=NRD_MODE_RADIANCE|TEMPORAL_STABILIZATION=0",
+      "hasConstants": true,
+      "resources": [
+        {
+          "name": "gIn_Tiles",
+          "storage": false,
+          "slot": 0
+        },
+        {
+          "name": "gIn_Normal_Roughness",
+          "storage": false,
+          "slot": 1
+        },
+        {
+          "name": "gIn_Data1",
+          "storage": false,
+          "slot": 2
+        },
+        {
+          "name": "gIn_ViewZ",
+          "storage": false,
+          "slot": 3
+        },
+        {
+          "name": "gIn_Diff",
+          "storage": false,
+          "slot": 4
+        },
+        {
+          "name": "gIn_Spec",
+          "storage": false,
+          "slot": 5
+        },
+        {
+          "name": "gOut_Normal_Roughness",
+          "storage": true,
+          "slot": 0
+        },
+        {
+          "name": "gOut_Diff",
+          "storage": true,
+          "slot": 1
+        },
+        {
+          "name": "gOut_Spec",
+          "storage": true,
+          "slot": 2
+        },
+        {
+          "name": "gOut_InternalData",
+          "storage": true,
+          "slot": 3
+        },
+        {
+          "name": "gOut_DiffCopy",
+          "storage": true,
+          "slot": 4
+        },
+        {
+          "name": "gOut_SpecCopy",
+          "storage": true,
+          "slot": 5
+        }
+      ]
+    },
+    {
+      "name": "Pipeline018",
+      "identifier": "REBLUR_PostBlur.cs.hlsl|NRD_SIGNAL=NRD_SIGNAL_BOTH|NRD_MODE=NRD_MODE_RADIANCE|TEMPORAL_STABILIZATION=1",
+      "hasConstants": true,
+      "resources": [
+        {
+          "name": "gIn_Tiles",
+          "storage": false,
+          "slot": 0
+        },
+        {
+          "name": "gIn_Normal_Roughness",
+          "storage": false,
+          "slot": 1
+        },
+        {
+          "name": "gIn_Data1",
+          "storage": false,
+          "slot": 2
+        },
+        {
+          "name": "gIn_ViewZ",
+          "storage": false,
+          "slot": 3
+        },
+        {
+          "name": "gIn_Diff",
+          "storage": false,
+          "slot": 4
+        },
+        {
+          "name": "gIn_Spec",
+          "storage": false,
+          "slot": 5
+        },
+        {
+          "name": "gOut_Normal_Roughness",
+          "storage": true,
+          "slot": 0
+        },
+        {
+          "name": "gOut_Diff",
+          "storage": true,
+          "slot": 1
+        },
+        {
+          "name": "gOut_Spec",
+          "storage": true,
+          "slot": 2
+        }
+      ]
+    },
+    {
+      "name": "Pipeline019",
+      "identifier": "REBLUR_TemporalStabilization.cs.hlsl|NRD_SIGNAL=NRD_SIGNAL_BOTH|NRD_MODE=NRD_MODE_RADIANCE",
+      "hasConstants": true,
+      "resources": [
+        {
+          "name": "gIn_Tiles",
+          "storage": false,
+          "slot": 0
+        },
+        {
+          "name": "gIn_Normal_Roughness",
+          "storage": false,
+          "slot": 1
+        },
+        {
+          "name": "gIn_ViewZ",
+          "storage": false,
+          "slot": 2
+        },
+        {
+          "name": "gIn_Data1",
+          "storage": false,
+          "slot": 3
+        },
+        {
+          "name": "gIn_Data2",
+          "storage": false,
+          "slot": 4
+        },
+        {
+          "name": "gIn_SpecHitDistForTracking",
+          "storage": false,
+          "slot": 5
+        },
+        {
+          "name": "gIn_Diff",
+          "storage": false,
+          "slot": 6
+        },
+        {
+          "name": "gIn_Spec",
+          "storage": false,
+          "slot": 7
+        },
+        {
+          "name": "gHistory_DiffLumaStabilized",
+          "storage": false,
+          "slot": 8
+        },
+        {
+          "name": "gHistory_SpecLumaStabilized",
+          "storage": false,
+          "slot": 9
+        },
+        {
+          "name": "gInOut_Mv",
+          "storage": true,
+          "slot": 0
+        },
+        {
+          "name": "gOut_InternalData",
+          "storage": true,
+          "slot": 1
+        },
+        {
+          "name": "gOut_Diff",
+          "storage": true,
+          "slot": 2
+        },
+        {
+          "name": "gOut_Spec",
+          "storage": true,
+          "slot": 3
+        },
+        {
+          "name": "gOut_DiffLumaStabilized",
+          "storage": true,
+          "slot": 4
+        },
+        {
+          "name": "gOut_SpecLumaStabilized",
+          "storage": true,
+          "slot": 5
+        }
+      ]
+    },
+    {
+      "name": "Pipeline020",
+      "identifier": "REBLUR_SplitScreen.cs.hlsl|NRD_SIGNAL=NRD_SIGNAL_BOTH|NRD_MODE=NRD_MODE_RADIANCE",
+      "hasConstants": true,
+      "resources": [
+        {
+          "name": "gIn_ViewZ",
+          "storage": false,
+          "slot": 0
+        },
+        {
+          "name": "gIn_Diff",
+          "storage": false,
+          "slot": 1
+        },
+        {
+          "name": "gIn_Spec",
+          "storage": false,
+          "slot": 2
+        },
+        {
+          "name": "gOut_Diff",
+          "storage": true,
+          "slot": 0
+        },
+        {
+          "name": "gOut_Spec",
+          "storage": true,
+          "slot": 1
+        }
+      ]
+    },
+    {
+      "name": "Pipeline021",
+      "identifier": "REBLUR_Validation.cs.hlsl",
+      "hasConstants": true,
+      "resources": [
+        {
+          "name": "gIn_Normal_Roughness",
+          "storage": false,
+          "slot": 0
+        },
+        {
+          "name": "gIn_ViewZ",
+          "storage": false,
+          "slot": 1
+        },
+        {
+          "name": "gIn_Mv",
+          "storage": false,
+          "slot": 2
+        },
+        {
+          "name": "gIn_Data1",
+          "storage": false,
+          "slot": 3
+        },
+        {
+          "name": "gIn_Data2",
+          "storage": false,
+          "slot": 4
+        },
+        {
+          "name": "gIn_Diff",
+          "storage": false,
+          "slot": 5
+        },
+        {
+          "name": "gIn_Spec",
+          "storage": false,
+          "slot": 6
+        },
+        {
+          "name": "gOut_Validation",
+          "storage": true,
+          "slot": 0
+        }
+      ]
+    },
+    {
+      "name": "Pipeline022",
+      "identifier": "Clear.cs.hlsl|FLOAT=1",
+      "hasConstants": true,
+      "resources": [
+        {
+          "name": "gOut",
+          "storage": true,
+          "slot": 0
+        }
+      ]
+    },
+    {
+      "name": "Pipeline023",
+      "identifier": "Clear.cs.hlsl|FLOAT=0",
+      "hasConstants": true,
+      "resources": [
+        {
+          "name": "gOut",
+          "storage": true,
+          "slot": 0
+        }
+      ]
+    }
+  ],
+  "permanent": [
+    {
+      "format": 30,
+      "downsample": 1
+    },
+    {
+      "format": 27,
+      "downsample": 1
+    },
+    {
+      "format": 15,
+      "downsample": 1
+    },
+    {
+      "format": 27,
+      "downsample": 1
+    },
+    {
+      "format": 17,
+      "downsample": 1
+    },
+    {
+      "format": 17,
+      "downsample": 1
+    },
+    {
+      "format": 17,
+      "downsample": 1
+    },
+    {
+      "format": 27,
+      "downsample": 1
+    },
+    {
+      "format": 17,
+      "downsample": 1
+    },
+    {
+      "format": 17,
+      "downsample": 1
+    },
+    {
+      "format": 17,
+      "downsample": 1
+    },
+    {
+      "format": 17,
+      "downsample": 1
+    },
+    {
+      "format": 17,
+      "downsample": 1
+    }
+  ],
+  "transient": [
+    {
+      "format": 4,
+      "downsample": 1
+    },
+    {
+      "format": 28,
+      "downsample": 1
+    },
+    {
+      "format": 17,
+      "downsample": 1
+    },
+    {
+      "format": 27,
+      "downsample": 1
+    },
+    {
+      "format": 17,
+      "downsample": 1
+    },
+    {
+      "format": 27,
+      "downsample": 1
+    },
+    {
+      "format": 17,
+      "downsample": 1
+    },
+    {
+      "format": 0,
+      "downsample": 16
+    }
+  ],
+  "formats": [
+    "R8_UNORM",
+    "R8_SNORM",
+    "R8_UINT",
+    "R8_SINT",
+    "RG8_UNORM",
+    "RG8_SNORM",
+    "RG8_UINT",
+    "RG8_SINT",
+    "RGBA8_UNORM",
+    "RGBA8_SNORM",
+    "RGBA8_UINT",
+    "RGBA8_SINT",
+    "RGBA8_SRGB",
+    "R16_UNORM",
+    "R16_SNORM",
+    "R16_UINT",
+    "R16_SINT",
+    "R16_SFLOAT",
+    "RG16_UNORM",
+    "RG16_SNORM",
+    "RG16_UINT",
+    "RG16_SINT",
+    "RG16_SFLOAT",
+    "RGBA16_UNORM",
+    "RGBA16_SNORM",
+    "RGBA16_UINT",
+    "RGBA16_SINT",
+    "RGBA16_SFLOAT",
+    "R32_UINT",
+    "R32_SINT",
+    "R32_SFLOAT",
+    "RG32_UINT",
+    "RG32_SINT",
+    "RG32_SFLOAT",
+    "RGB32_UINT",
+    "RGB32_SINT",
+    "RGB32_SFLOAT",
+    "RGBA32_UINT",
+    "RGBA32_SINT",
+    "RGBA32_SFLOAT",
+    "R10_G10_B10_A2_UNORM",
+    "R10_G10_B10_A2_UINT",
+    "R11_G11_B10_UFLOAT",
+    "R9_G9_B9_E5_UFLOAT"
+  ],
+  "resourceNames": [
+    "IN_MV",
+    "IN_NORMAL_ROUGHNESS",
+    "IN_VIEWZ",
+    "IN_DIFF_CONFIDENCE",
+    "IN_SPEC_CONFIDENCE",
+    "IN_DISOCCLUSION_THRESHOLD_MIX",
+    "IN_DIFF_RADIANCE_HITDIST",
+    "IN_SPEC_RADIANCE_HITDIST",
+    "IN_DIFF_HITDIST",
+    "IN_SPEC_HITDIST",
+    "IN_DIFF_DIRECTION_HITDIST",
+    "IN_DIFF_SH0",
+    "IN_DIFF_SH1",
+    "IN_SPEC_SH0",
+    "IN_SPEC_SH1",
+    "IN_PENUMBRA",
+    "IN_TRANSLUCENCY",
+    "IN_SIGNAL",
+    "OUT_DIFF_RADIANCE_HITDIST",
+    "OUT_SPEC_RADIANCE_HITDIST",
+    "OUT_DIFF_SH0",
+    "OUT_DIFF_SH1",
+    "OUT_SPEC_SH0",
+    "OUT_SPEC_SH1",
+    "OUT_DIFF_HITDIST",
+    "OUT_SPEC_HITDIST",
+    "OUT_DIFF_DIRECTION_HITDIST",
+    "OUT_SHADOW_TRANSLUCENCY",
+    "OUT_SIGNAL",
+    "OUT_VALIDATION",
+    "TRANSIENT_POOL",
+    "PERMANENT_POOL"
+  ]
+}

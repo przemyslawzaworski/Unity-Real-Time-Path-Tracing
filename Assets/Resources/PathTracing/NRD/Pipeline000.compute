@@ -1,0 +1,6 @@
+#pragma kernel main
+#pragma use_dxc
+#pragma only_renderers d3d11
+#define NRD_INTERNAL
+#include "UnityBindings.hlsli"
+#include "Library/REBLUR_ClassifyTiles.cs.hlsl"

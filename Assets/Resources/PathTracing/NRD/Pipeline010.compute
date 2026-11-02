@@ -1,0 +1,8 @@
+#pragma kernel main
+#pragma use_dxc
+#pragma only_renderers d3d11
+#define NRD_INTERNAL
+#include "UnityBindings.hlsli"
+#define NRD_SIGNAL NRD_SIGNAL_BOTH
+#define NRD_MODE NRD_MODE_RADIANCE
+#include "Library/REBLUR_TemporalAccumulation.cs.hlsl"
