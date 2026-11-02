@@ -1,0 +1,30 @@
+#pragma kernel BuildRows
+#pragma kernel BuildMarginal
+TextureCube<float4> _Environment;
+SamplerState sampler_Environment;
+RWStructuredBuffer<float> _Conditional;
+RWStructuredBuffer<float> _Marginal;
+RWStructuredBuffer<float> _Weights;
+groupshared float prefix[256];
+static const float PI=3.141592653589793;
+[numthreads(256,1,1)]
+void BuildRows(uint3 group:SV_GroupID,uint index:SV_GroupIndex)
+{
+    uint y=group.x;
+    float theta=PI*(y+0.5)/128,phi=2*PI*((index+0.5)/256-0.5);
+    float3 d=float3(sin(theta)*sin(phi),cos(theta),sin(theta)*cos(phi));
+    float3 c=_Environment.SampleLevel(sampler_Environment,d,0).rgb;
+    float omega=(2*PI/256)*(cos(PI*y/128)-cos(PI*(y+1)/128));
+    float w=all(isfinite(c))?max(dot(max(c,0),float3(.2126,.7152,.0722)),0)*omega:0;
+    prefix[index]=w;_Weights[y*256+index]=w;
+    GroupMemoryBarrierWithGroupSync();
+    [unroll]for(uint step=1;step<256;step*=2){float v=index>=step?prefix[index-step]:0;GroupMemoryBarrierWithGroupSync();prefix[index]+=v;GroupMemoryBarrierWithGroupSync();}
+    _Conditional[y*256+index]=prefix[index];if(index==255)_Marginal[y]=prefix[index];
+}
+[numthreads(128,1,1)]
+void BuildMarginal(uint index:SV_GroupIndex)
+{
+    prefix[index]=_Marginal[index];GroupMemoryBarrierWithGroupSync();
+    [unroll]for(uint step=1;step<128;step*=2){float v=index>=step?prefix[index-step]:0;GroupMemoryBarrierWithGroupSync();prefix[index]+=v;GroupMemoryBarrierWithGroupSync();}
+    _Marginal[index]=prefix[index];
+}

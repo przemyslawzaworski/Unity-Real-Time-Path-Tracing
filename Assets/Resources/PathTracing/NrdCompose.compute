@@ -1,0 +1,25 @@
+#pragma kernel Compose
+#include "NRD/Library/NRD.hlsli"
+Texture2D<float4> _Original,_RawDiffuse,_RawSpecular,_Diffuse,_Specular,_DiffuseFactor,_SpecularFactor,_NormalRoughness,_Motion;
+Texture2D<float> _ViewZ;
+RWTexture2D<float4> _Output;
+int _LightingView;
+[numthreads(8,8,1)]void Compose(uint3 id:SV_DispatchThreadID) {
+    uint w,h;_Original.GetDimensions(w,h);if(id.x>=w||id.y>=h)return;
+    int2 p=id.xy;
+    float4 original=_Original[p];float4 df=_DiffuseFactor[p];float3 sf=_SpecularFactor[p].rgb;
+    float3 rawD=REBLUR_BackEnd_UnpackRadianceAndNormHitDist(_RawDiffuse[p]).rgb*df.rgb;
+    float3 rawS=REBLUR_BackEnd_UnpackRadianceAndNormHitDist(_RawSpecular[p]).rgb*sf;
+    bool valid=df.a>0.5 && _ViewZ[p]<10000;
+    float3 d=valid?REBLUR_BackEnd_UnpackRadianceAndNormHitDist(_Diffuse[p]).rgb*df.rgb:rawD;
+    float3 s=valid?REBLUR_BackEnd_UnpackRadianceAndNormHitDist(_Specular[p]).rgb*sf:rawS;
+    float3 color=valid?max(original.rgb-rawD-rawS+d+s,0):original.rgb;
+    if(_LightingView==1)color=d;
+    if(_LightingView==2)color=s;
+    if(_LightingView==3)color=_NormalRoughness[p].rgb*0.5+0.5;
+    if(_LightingView==4)color=_ViewZ[p]<10000?(_ViewZ[p]/100.0).xxx:0;
+    if(_LightingView==5)color=float3(_Motion[p].xy*10+0.5,0.5);
+
+    if(_LightingView==6)color=valid?float3(0,1,0):float3(1,0,0);
+    _Output[p]=float4(all(isfinite(color))?color:original.rgb,1);
+}

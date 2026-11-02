@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6a64d3eb3af46e182c506d4d09ba392, type: 3}
+  m_Name: Settings
+  m_EditorClassIdentifier:
+  automaticallyAddToMainCamera: 1
+  samplesPerFrame: 8
+  renderScale: 1
+  denoise: 1
+  denoiserIterations: 2
+  denoiserStrength: 2
+  opaqueBounces: 5
+  glassBounces: 8
+  environmentIntensity: 1
+  environmentOverride: {fileID: 8900000, guid: a7829a89ede6d474d95ddc07bf19ac06, type: 3}
+  environmentNEE: 0
+  exposureEV: 3
+  toneMapping: 2
+  denoiserMode: 1
+  nrdMaxHistoryFrames: 32

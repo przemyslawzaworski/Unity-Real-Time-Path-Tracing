@@ -1,0 +1,70 @@
+#pragma kernel Atrous
+
+Texture2D<float4> _Input;
+Texture2D<float4> _Guide;
+Texture2D<float4> _Albedo;
+Texture2D<float4> _RawDiffuse;
+Texture2D<float4> _Radiance;
+RWTexture2D<float4> _Output;
+int _Step;
+int _FinalPass;
+float _Strength;
+
+float Luminance(float3 c) { return dot(c, float3(0.2126, 0.7152, 0.0722)); }
+
+float4 Finish(int2 pixel, float4 filtered)
+{
+    if (_FinalPass == 0) return filtered;
+    float4 original = _Radiance[pixel];
+
+    float3 correction = (filtered.rgb - _RawDiffuse[pixel].rgb) * _Albedo[pixel].rgb;
+    return float4(max(original.rgb + correction, 0), original.a);
+}
+
+[numthreads(8, 8, 1)]
+void Atrous(uint3 id : SV_DispatchThreadID)
+{
+    uint width, height;
+    _Input.GetDimensions(width, height);
+    if (id.x >= width || id.y >= height) return;
+    int2 pixel = int2(id.xy);
+    float4 center = _Input[pixel];
+    float4 guide = _Guide[pixel];
+    float4 albedo = _Albedo[pixel];
+    if (guide.w < 0 || albedo.a < 0.5)
+    {
+        _Output[pixel] = _FinalPass != 0 ? _Radiance[pixel] : center;
+        return;
+    }
+    float centerLuma = Luminance(center.rgb);
+    float3 sum = center.rgb * 4.0;
+    float total = 4.0;
+    float variance = center.a * 16.0;
+
+    [unroll] for (int y = -1; y <= 1; y++)
+    [unroll] for (int x = -1; x <= 1; x++)
+    {
+        if (x == 0 && y == 0) continue;
+        int2 q = pixel + int2(x, y) * _Step;
+        if (any(q < 0) || q.x >= (int)width || q.y >= (int)height) continue;
+        float4 otherGuide = _Guide[q];
+        float4 otherAlbedo = _Albedo[q];
+        if (otherGuide.w < 0 || otherAlbedo.a < 0.5) continue;
+        float4 other = _Input[q];
+        float normalWeight = pow(saturate(dot(guide.xyz, otherGuide.xyz)), 64.0);
+        float depthWeight = exp(-abs(guide.w - otherGuide.w) / max(0.005 * guide.w * _Step, 0.001));
+        float3 deltaAlbedo = albedo.rgb - otherAlbedo.rgb;
+        float albedoWeight = exp(-dot(deltaAlbedo, deltaAlbedo) * 64.0);
+        float sigma = sqrt(max(center.a + other.a, 0.0));
+        float threshold = max(_Strength * sigma, 0.01 * max(abs(centerLuma), 0.01));
+        float colorWeight = exp(-abs(centerLuma - Luminance(other.rgb)) / max(threshold, 1e-5));
+        float spatial = (x == 0 || y == 0) ? 2.0 : 1.0;
+        float weight = spatial * normalWeight * depthWeight * albedoWeight * colorWeight;
+        sum += other.rgb * weight;
+        total += weight;
+        variance += other.a * weight * weight;
+    }
+
+    float outputVariance = max(variance / (total * total), center.a * 0.25);
+    _Output[pixel] = Finish(pixel, float4(sum / total, outputVariance));
+}

@@ -1,0 +1,232 @@
+
+#include "UnityShaderVariables.cginc"
+#include "GlobalResources.hlsl"
+#include "Utils.hlsl"
+#include "RayPayload.hlsl"
+#include "NRD/Library/NRD.hlsli"
+
+#pragma max_recursion_depth 2
+
+float                           g_Zoom;
+float                           g_AspectRatio;
+uint                            g_SamplesPerFrame;
+float                           g_SampleLuminanceClamp;
+uint                            g_FrameIndex;
+int                             g_DebugBounceIndex;
+uint                            g_DebugSingleBounce;
+uint                            g_DebugValidate;
+
+RWTexture2D<float4>             g_Radiance;
+RWTexture2D<float4>             g_SurfaceGuide;
+RWTexture2D<float4>             g_Diffuse;
+RWTexture2D<float4>             g_Albedo;
+uint g_WriteDenoiserGuides;
+RWTexture2D<float4> g_NrdSpecular;
+RWTexture2D<float4> g_NrdNormalRoughness;
+RWTexture2D<float> g_NrdViewZ;
+RWTexture2D<float4> g_NrdSpecularFactor;
+float4x4 g_PTWorldToView;
+float4x4 g_PTCameraToWorld;
+float4x4 g_PTPreviousViewProjection;
+RWTexture2D<float4> g_NrdMotion;
+
+RayDesc GenerateCameraRay(uint2 launchIndex, uint sampleIndex, inout uint rngState)
+{
+    uint2 launchDim = DispatchRaysDimensions().xy;
+
+    float2 frameCoord = launchIndex + float2(0.5, 0.5);
+
+    float2 jitter = float2(RandomFloat01(rngState), RandomFloat01(rngState)) - float2(0.5, 0.5);
+
+    if (sampleIndex == 0) jitter = 0;
+    float2 ndcCoords = (frameCoord + jitter) / float2(launchDim);
+
+    ndcCoords = ndcCoords * 2 - float2(1, 1);
+    ndcCoords = ndcCoords * g_Zoom;
+
+    float3 viewDirection = normalize(float3(ndcCoords.x * g_AspectRatio, ndcCoords.y, 1));
+
+    float3 rayDirection = mul((float3x3)g_PTCameraToWorld, viewDirection);
+
+    RayDesc ray;
+    ray.Origin      = _WorldSpaceCameraPos;
+    ray.Direction   = rayDirection;
+    ray.TMin        = 0;
+    ray.TMax        = K_T_MAX;
+
+    return ray;
+}
+
+[shader("raygeneration")]
+void MainRayGenShader()
+{
+    uint2 launchIndex = uint2(DispatchRaysIndex().x, DispatchRaysDimensions().y - DispatchRaysIndex().y - 1);
+
+    float3 average = 0;
+    float3 diffuseAverage = 0;
+    float3 emissionAverage=0;
+    float3 guideAlbedo = 0;
+    float meanLuma = 0, m2 = 0;
+    float3 diffuseFactor=1,specularFactor=1;
+    float4 normalRoughness=float4(0,0,1,-1);
+    float viewZ=20000;
+    float diffuseHit=0,specularHit=1;
+    uint specularSamples=0;
+    float3 previousPosition=0;
+    float historyValid=0;
+    bool mixedSurface = false;
+    float4 guide = float4(0, 0, 0, -1);
+    bool invalidSample = false;
+    uint sampleCount = clamp(g_SamplesPerFrame, 1u, 128u);
+    [loop]
+    for (uint sampleIndex = 0; sampleIndex < sampleCount; sampleIndex++)
+    {
+        uint rngState = (launchIndex.x * 1973u + launchIndex.y * 9277u
+            + g_FrameIndex * 26699u + sampleIndex * 104729u) | 1u;
+        WangHash(rngState);
+        RayDesc ray = GenerateCameraRay(launchIndex, sampleIndex, rngState);
+
+        const uint missShaderIndex = 0;
+
+        RayPayload rayPayload;
+    	rayPayload.Init(rngState);
+        static const uint bayer[16]={0,8,2,10,12,4,14,6,3,11,1,9,15,7,13,5};
+        uint cell=((launchIndex.y&3)*4+(launchIndex.x&3));
+        rayPayload.primaryLobeSelector=frac((bayer[cell]+0.5)/16.0+(sampleIndex+g_FrameIndex)*0.61803398875);
+        float3 primaryDirection=ray.Direction;
+        float sampleDiffuseHit=0;
+        rayPayload.coneSpread = 2.0 * g_Zoom / DispatchRaysDimensions().y;
+
+        float3 radiance = float3(0, 0, 0);
+        float3 diffuseRadiance = 0;
+        float3 throughput = float3(1, 1, 1);
+
+        do
+        {
+    		uint rayFlags = RAY_FLAG_CULL_BACK_FACING_TRIANGLES;
+
+            uint currentBounce = rayPayload.GetBounceIndexTotal();
+            TraceRay(g_AccelStruct, rayFlags, 0xFF, 0, 1, missShaderIndex, ray, rayPayload);
+            if (currentBounce == 0)
+            {
+                if (sampleIndex == 0) {
+                    guide = rayPayload.primarySurface; guideAlbedo = rayPayload.primaryAlbedo;
+                    diffuseFactor=rayPayload.primaryDiffuseFactor;specularFactor=rayPayload.primarySpecularFactor;
+                    normalRoughness=rayPayload.primaryNormalRoughness;
+                    previousPosition=rayPayload.primaryPreviousPosition;historyValid=rayPayload.primaryHistoryValid;
+                    viewZ=guide.w>=0 && normalRoughness.w>=0?abs(mul((float3x3)g_PTWorldToView,primaryDirection).z)*guide.w:20000;
+                }
+                else
+                {
+
+                    float d = rayPayload.primarySurface.w;
+                    mixedSurface = mixedSurface || ((guide.w < 0) != (d < 0))
+                        || (guide.w >= 0 && (abs(d - guide.w) > max(guide.w * 0.01, 0.001)
+                        || dot(guide.xyz, rayPayload.primarySurface.xyz) < 0.95
+                        || length(guideAlbedo - rayPayload.primaryAlbedo) > 0.1));
+                }
+            }
+            if(currentBounce>0 && g_UseNRD!=0)
+            {
+                if(rayPayload.primarySpecular==0)sampleDiffuseHit=saturate(sampleDiffuseHit+REBLUR_FrontEnd_GetNormHitDist(rayPayload.lastHitDistance,viewZ,float3(3,0.1,20),1));
+                else if(currentBounce==1) {
+                    float h=REBLUR_FrontEnd_GetNormHitDist(rayPayload.lastHitDistance,viewZ,float3(3,0.1,20),max(normalRoughness.w,0));
+                    specularHit=specularSamples==0?h:min(specularHit,h);specularSamples++;
+                }
+            }
+            if (g_DebugSingleBounce == 0 || currentBounce == (uint)g_DebugBounceIndex)
+            {
+                radiance += rayPayload.emission * throughput;
+                if (currentBounce == 0) diffuseRadiance += rayPayload.primaryDirectDiffuse;
+                else if (rayPayload.primarySpecular == 0) diffuseRadiance += rayPayload.emission * throughput;
+            }
+
+    		if (rayPayload.IsTerminated())
+                break;
+
+            throughput *= rayPayload.weight;
+
+    		if (RussianRouletteTerminate(throughput, rayPayload))
+    			break;
+
+            ray.Origin      = rayPayload.bounceRayOrigin;
+            ray.Direction   = rayPayload.bounceRayDirection;
+
+            rayPayload.IncrementBounceIndexTotal();
+        }
+        while (rayPayload.GetBounceIndexTotal() < 1000);
+
+        if (!all(isfinite(radiance)))
+        {
+            invalidSample = true;
+            radiance = 0;
+            diffuseRadiance = 0;
+        }
+        if (g_SampleLuminanceClamp > 0)
+        {
+            float luminance = dot(max(radiance, 0), float3(0.2126, 0.7152, 0.0722));
+            float scale = min(1.0, g_SampleLuminanceClamp / max(luminance, 1e-6));
+            radiance *= scale;
+            diffuseRadiance *= scale;
+        }
+        diffuseHit+=(sampleDiffuseHit-diffuseHit)/float(sampleIndex+1);
+        average += (radiance - average) / float(sampleIndex + 1);
+        emissionAverage+=(rayPayload.primaryEmission-emissionAverage)/float(sampleIndex+1);
+        diffuseAverage += (diffuseRadiance - diffuseAverage) / float(sampleIndex + 1);
+        float luma = dot(diffuseRadiance / max(guideAlbedo, 0.04), float3(0.2126, 0.7152, 0.0722));
+        float delta = luma - meanLuma;
+        meanLuma += delta / float(sampleIndex + 1);
+        m2 += delta * (luma - meanLuma);
+    }
+    if (g_DebugValidate != 0 && invalidSample) average = float3(1, 0, 1);
+
+    g_Radiance[launchIndex] = float4(average, 1);
+    if (g_WriteDenoiserGuides != 0)
+    {
+        g_SurfaceGuide[launchIndex] = guide;
+        float3 illumination = diffuseAverage / max(guideAlbedo, 0.04);
+        bool filterable = !mixedSurface && any(guideAlbedo > 0.001) && all(illumination < 60000) && all(isfinite(illumination));
+        g_Albedo[launchIndex] = float4(max(guideAlbedo, 0.04), filterable ? 1.0 : 0.0);
+        float variance = sampleCount > 1 ? m2 / (float(sampleCount) * float(sampleCount - 1)) : max(meanLuma * meanLuma, 1.0);
+        g_Diffuse[launchIndex] = float4(min(max(illumination, 0), 60000), clamp(variance, 0, 60000));
+        if(g_UseNRD!=0)
+        {
+
+            float3 specularRadiance=max(average-diffuseAverage-emissionAverage,0);
+
+            g_Diffuse[launchIndex]=REBLUR_FrontEnd_PackRadianceAndNormHitDist(diffuseAverage/diffuseFactor,max(diffuseHit,1e-5),true);
+            g_NrdSpecular[launchIndex]=REBLUR_FrontEnd_PackRadianceAndNormHitDist(specularRadiance/specularFactor,max(specularHit,1e-5),true);
+
+            g_NrdSpecularFactor[launchIndex]=float4(specularFactor,1);
+            g_NrdNormalRoughness[launchIndex]=float4(normalRoughness.xyz,max(normalRoughness.w,0));
+            float4 previousClip=mul(g_PTPreviousViewProjection,float4(previousPosition,1));
+            float2 previousUV=previousClip.xy/max(previousClip.w,1e-6)*float2(0.5,-0.5)+0.5;
+            float2 uv=(float2(launchIndex)+0.5)/float2(DispatchRaysDimensions().xy);
+            g_NrdMotion[launchIndex]=float4(previousUV-uv,0,0);
+            bool opaqueSurface=guide.w>=0 && normalRoughness.w>=0 && viewZ<10000 && isfinite(viewZ);
+            bool validHistory=historyValid>0.5 && previousClip.w>0 && all(isfinite(previousUV));
+
+            if(!validHistory)g_NrdMotion[launchIndex]=float4(float2(-2,-2)-uv,0,0);
+            g_Albedo[launchIndex]=float4(diffuseFactor,opaqueSurface?1:0);
+            g_NrdViewZ[launchIndex]=opaqueSurface?viewZ:20000;
+        }
+    }
+}
+
+[shader("miss")]
+void MainMissShader(inout RayPayload payload : SV_RayPayload)
+{
+    payload.lastHitDistance=10000;
+    payload.emission = PTEnvironmentRadiance(WorldRayDirection()) * payload.environmentMisWeight;
+    payload.Terminate();
+}
+
+[shader("miss")]
+void ShadowMissShader(inout ShadowRayPayload payload : SV_RayPayload)
+{
+    payload.visible = 1;
+}
+
+[shader("miss")]
+
+void ZGlassShadowMissShader(inout GlassShadowPayload payload : SV_RayPayload) { }
