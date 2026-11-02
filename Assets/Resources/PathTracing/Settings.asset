@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c6a64d3eb3af46e182c506d4d09ba392, type: 3}
   m_Name: Settings
-  m_EditorClassIdentifier:
+  m_EditorClassIdentifier: 
   automaticallyAddToMainCamera: 1
   samplesPerFrame: 8
   renderScale: 1
@@ -24,6 +24,6 @@ MonoBehaviour:
   environmentOverride: {fileID: 8900000, guid: a7829a89ede6d474d95ddc07bf19ac06, type: 3}
   environmentNEE: 0
   exposureEV: 3
-  toneMapping: 2
+  toneMapping: 1
   denoiserMode: 1
   nrdMaxHistoryFrames: 32
